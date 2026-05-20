@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,11 +25,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rahulghag.splittrip.core.ui.components.avatar.AvatarSize
+import com.rahulghag.splittrip.core.ui.components.avatar.AvatarStack
+import com.rahulghag.splittrip.core.ui.components.button.SplitTripDangerButton
+import com.rahulghag.splittrip.core.ui.components.button.SplitTripOutlineButton
+import com.rahulghag.splittrip.core.ui.components.button.SplitTripPrimaryButton
+import com.rahulghag.splittrip.core.ui.components.empty.EmptyState
+import com.rahulghag.splittrip.core.ui.components.text.AmountText
 import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.MemberColors
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AirplaneTicket
 
 @Composable
 fun ThemePreviewScreen() {
@@ -185,6 +192,54 @@ fun ThemePreviewScreen() {
                     }
                 }
             }
+
+            // Components section
+            HorizontalDivider()
+            Text(
+                text = "COMPONENTS",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            // Buttons
+            SplitTripPrimaryButton(
+                text = "Add expense",
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
+            )
+            SplitTripOutlineButton(
+                text = "Cancel",
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
+            )
+            SplitTripDangerButton(
+                text = "Leave trip",
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            // Amount text
+            Row(horizontalArrangement = Arrangement.spacedBy(Dimens.spaceL)) {
+                AmountText(amount = 18420.0,
+                    style = AmountTextStyle.copy(fontSize = 22.sp))
+                AmountText(amount = -1200.0,
+                    style = AmountTextStyle.copy(fontSize = 22.sp))
+            }
+
+            // Avatar stack
+            AvatarStack(
+                names = listOf("Rahul", "Priya", "Arun", "Sara", "Meera"),
+                size = AvatarSize.MD,
+            )
+
+            // Empty state
+            EmptyState(
+                icon = Icons.Outlined.AirplaneTicket,
+                title = "No trips yet",
+                subtitle = "Create your first trip and invite friends.",
+                actionLabel = "Create trip",
+                onAction = {},
+            )
 
             Spacer(Modifier.height(Dimens.space4XL))
         }
