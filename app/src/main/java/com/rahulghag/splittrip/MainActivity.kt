@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
+import com.rahulghag.splittrip.test.CounterScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SplitTripTheme {
-                ThemePreviewScreen()
+                CounterScreen()
             }
         }
     }
