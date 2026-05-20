@@ -21,3 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "SplitTrip"
 include(":app")
+include(":core:common")
+include(":core:ui")
