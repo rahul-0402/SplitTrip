@@ -49,6 +49,7 @@ dependencies {
     // Modules
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
+    implementation(project(":core:navigation"))
 
     // Core
     implementation(libs.androidx.core.ktx)
