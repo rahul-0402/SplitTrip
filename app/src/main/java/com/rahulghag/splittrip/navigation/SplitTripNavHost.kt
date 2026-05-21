@@ -8,25 +8,25 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.rahulghag.splittrip.core.navigation.Screen
 import com.rahulghag.splittrip.designsystem.DesignSystemScreen
+import com.rahulghag.splittrip.feature.auth.login.LoginScreen
+import com.rahulghag.splittrip.feature.auth.profilesetup.ProfileSetupScreen
+import com.rahulghag.splittrip.feature.auth.splash.SplashScreen
+import com.rahulghag.splittrip.feature.trips.triplist.TripListScreen
 import com.rahulghag.splittrip.placeholder.ActivityPlaceholder
 import com.rahulghag.splittrip.placeholder.AddExpensePlaceholder
 import com.rahulghag.splittrip.placeholder.BalancesPlaceholder
+import com.rahulghag.splittrip.placeholder.CreateTripPlaceholder
 import com.rahulghag.splittrip.placeholder.ExpenseDetailPlaceholder
-import com.rahulghag.splittrip.placeholder.LoginPlaceholder
 import com.rahulghag.splittrip.placeholder.ProfilePlaceholder
-import com.rahulghag.splittrip.placeholder.ProfileSetupPlaceholder
 import com.rahulghag.splittrip.placeholder.SettleUpPlaceholder
-import com.rahulghag.splittrip.placeholder.SplashPlaceholder
 import com.rahulghag.splittrip.placeholder.StatsPlaceholder
 import com.rahulghag.splittrip.placeholder.TripDetailPlaceholder
-import com.rahulghag.splittrip.placeholder.TripListPlaceholder
 
 @Composable
 fun SplitTripNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    // Start at TripList for now — will be Splash once auth is ready
-    startDestination: Screen = Screen.TripList,
+    startDestination: Screen = Screen.Splash,
 ) {
     NavHost(
         navController = navController,
@@ -36,25 +36,70 @@ fun SplitTripNavHost(
 
         // ── Auth ──────────────────────────────
         composable<Screen.Splash> {
-            SplashPlaceholder()
+            SplashScreen(
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login) {
+                        popUpTo(Screen.Splash) { inclusive = true }
+                    }
+                },
+                onNavigateToTripList = {
+                    navController.navigate(Screen.TripList) {
+                        popUpTo(Screen.Splash) { inclusive = true }
+                    }
+                },
+            )
         }
 
         composable<Screen.Login> {
-            LoginPlaceholder()
+            LoginScreen(
+                onNavigateToTripList = {
+                    navController.navigate(Screen.TripList) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                },
+                onNavigateToProfileSetup = {
+                    navController.navigate(Screen.ProfileSetup) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                },
+                onNavigateToSignUp = {
+                    // TODO: SignUp screen later
+                },
+                onNavigateToForgotPassword = {
+                    // TODO: ForgotPassword screen later
+                },
+            )
         }
 
         composable<Screen.ProfileSetup> {
-            ProfileSetupPlaceholder()
+            ProfileSetupScreen(
+                onNavigateToTripList = {
+                    navController.navigate(Screen.TripList) {
+                        popUpTo(Screen.ProfileSetup) { inclusive = true }
+                    }
+                },
+            )
         }
 
         // ── Main ──────────────────────────────
         composable<Screen.TripList> {
-            TripListPlaceholder()
+            TripListScreen(
+                onNavigateToTripDetail = { tripId ->
+                    navController.navigate(Screen.TripDetail(tripId))
+                },
+                onNavigateToCreateTrip = {
+                    navController.navigate(Screen.CreateTrip)
+                },
+            )
         }
 
         composable<Screen.TripDetail> { backStackEntry ->
             val route = backStackEntry.toRoute<Screen.TripDetail>()
             TripDetailPlaceholder(tripId = route.tripId)
+        }
+
+        composable<Screen.CreateTrip> {
+            CreateTripPlaceholder()
         }
 
         // ── Expenses ──────────────────────────

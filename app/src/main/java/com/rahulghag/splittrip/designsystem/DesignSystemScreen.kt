@@ -393,7 +393,7 @@ fun DesignSystemScreen(
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                             ) {
                                 MemberAvatar(
-                                    name = "Rahul Sharma",
+                                    name = "Rahul",
                                     index = i,
                                     size = size,
                                 )

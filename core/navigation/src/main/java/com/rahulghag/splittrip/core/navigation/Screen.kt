@@ -73,6 +73,10 @@ sealed interface Screen {
     @Serializable
     data object Profile : Screen
 
+    // ── Trip creation ──────────────────────────
+    @Serializable
+    data object CreateTrip : Screen
+
     // ── Dev tools ─────────────────────────────
     @Serializable
     data object DesignSystem : Screen

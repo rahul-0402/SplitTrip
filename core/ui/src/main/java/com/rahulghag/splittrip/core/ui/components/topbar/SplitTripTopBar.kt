@@ -1,5 +1,6 @@
 package com.rahulghag.splittrip.core.ui.components.topbar
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,7 +28,7 @@ fun SplitTripTopBar(
     TopAppBar(
         title = {
             if (subtitle != null) {
-                androidx.compose.foundation.layout.Column {
+                Column {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleLarge,

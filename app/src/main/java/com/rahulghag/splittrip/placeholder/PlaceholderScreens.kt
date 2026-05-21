@@ -95,6 +95,9 @@ fun ProfilePlaceholder(
 }
 
 @Composable
+fun CreateTripPlaceholder() = Placeholder("Create Trip")
+
+@Composable
 fun DesignSystemPlaceholder() = Placeholder("Design System")
 
 @Composable

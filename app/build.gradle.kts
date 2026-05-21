@@ -50,6 +50,8 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:navigation"))
+    implementation(project(":feature:auth"))
+    implementation(project(":feature:trips"))
 
     // Core
     implementation(libs.androidx.core.ktx)
