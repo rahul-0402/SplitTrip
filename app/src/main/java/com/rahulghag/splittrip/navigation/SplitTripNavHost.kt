@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.rahulghag.splittrip.core.navigation.Screen
+import com.rahulghag.splittrip.designsystem.DesignSystemScreen
 import com.rahulghag.splittrip.placeholder.ActivityPlaceholder
 import com.rahulghag.splittrip.placeholder.AddExpensePlaceholder
 import com.rahulghag.splittrip.placeholder.BalancesPlaceholder
@@ -90,7 +91,25 @@ fun SplitTripNavHost(
         }
 
         composable<Screen.Profile> {
-            ProfilePlaceholder()
+            ProfilePlaceholder(
+                onOpenDesignSystem = {
+                    navController.navigate(Screen.DesignSystem)
+                },
+                onOpenCounter = {
+                    navController.navigate(Screen.Counter)
+                },
+            )
+        }
+
+        // ── Dev tools ─────────────────────────
+        composable<Screen.DesignSystem> {
+            DesignSystemScreen(
+                onNavigateUp = { navController.navigateUp() },
+            )
+        }
+
+        composable<Screen.Counter> {
+            com.rahulghag.splittrip.test.CounterScreen()
         }
     }
 }

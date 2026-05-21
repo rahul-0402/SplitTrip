@@ -72,4 +72,11 @@ sealed interface Screen {
 
     @Serializable
     data object Profile : Screen
+
+    // ── Dev tools ─────────────────────────────
+    @Serializable
+    data object DesignSystem : Screen
+
+    @Serializable
+    data object Counter : Screen
 }
