@@ -3,14 +3,14 @@ package com.rahulghag.splittrip.feature.settle.balances
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.settle.model.BalanceUiModel
+import com.rahulghag.splittrip.domain.settle.model.Balance
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class BalancesState(
     val tripId: String = "",
     val tripName: String = "",
-    val balances: ImmutableList<BalanceUiModel> = persistentListOf(),
+    val balances: ImmutableList<Balance> = persistentListOf(),
     val totalOwed: Double = 0.0,
     val totalOwing: Double = 0.0,
     val isLoading: Boolean = true,

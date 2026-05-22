@@ -3,10 +3,10 @@ package com.rahulghag.splittrip.feature.profile
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.profile.model.ProfileUiModel
+import com.rahulghag.splittrip.domain.profile.model.Profile
 
 data class ProfileState(
-    val profile: ProfileUiModel? = null,
+    val profile: Profile? = null,
     val isLoading: Boolean = true,
     val error: String? = null,
     val showSignOutDialog: Boolean = false,

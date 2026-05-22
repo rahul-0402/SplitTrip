@@ -75,10 +75,10 @@ import com.rahulghag.splittrip.core.ui.extensions.CollectEvents
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.trips.mock.FakeMembers
-import com.rahulghag.splittrip.feature.trips.model.MemberSplitRow
-import com.rahulghag.splittrip.feature.trips.model.SplitType
-import com.rahulghag.splittrip.feature.trips.model.ExpenseCategory
+import com.rahulghag.splittrip.domain.trips.model.Member
+import com.rahulghag.splittrip.domain.trips.model.MemberSplit
+import com.rahulghag.splittrip.domain.trips.model.SplitType
+import com.rahulghag.splittrip.domain.trips.model.ExpenseCategory
 import kotlinx.collections.immutable.toImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -492,7 +492,7 @@ private fun SplitSection(
 
 @Composable
 private fun MemberSplitItem(
-    splitRow: MemberSplitRow,
+    splitRow: MemberSplit,
     splitType: SplitType,
     onIncludeToggled: () -> Unit,
     onCustomAmountChanged: (String) -> Unit,
@@ -678,16 +678,23 @@ private fun formatShareText(amount: Double): String =
     if (amount % 1.0 == 0.0) amount.toInt().toString()
     else "%.2f".format(amount)
 
+private val previewMembers = listOf(
+    Member("m1", "Rahul", 0, "rahul@upi"),
+    Member("m2", "Komal", 1, "komal@upi"),
+    Member("m3", "Arun", 2, null),
+    Member("m4", "Sara", 3, null),
+)
+
 @Preview(showBackground = true, name = "Default (empty form)")
 @Composable
 private fun AddExpenseDefaultPreview() {
     SplitTripTheme {
         AddExpenseContent(
             state = AddExpenseState(
-                memberSplits = FakeMembers.map { member ->
-                    MemberSplitRow(member = member, percentage = 25.0, shares = 1)
+                memberSplits = previewMembers.map { member ->
+                    MemberSplit(member = member, percentage = 25.0, shares = 1)
                 }.toImmutableList(),
-                paidBy = FakeMembers.first(),
+                paidBy = previewMembers.first(),
             ),
             onIntent = {},
         )
@@ -703,10 +710,10 @@ private fun AddExpenseFilledPreview() {
                 amount = "2800",
                 description = "Dinner at Britto's",
                 selectedCategory = ExpenseCategory.FOOD,
-                paidBy = FakeMembers.first(),
+                paidBy = previewMembers.first(),
                 splitType = SplitType.EQUAL,
-                memberSplits = FakeMembers.map { member ->
-                    MemberSplitRow(
+                memberSplits = previewMembers.map { member ->
+                    MemberSplit(
                         member = member,
                         amount = 700.0,
                         percentage = 25.0,

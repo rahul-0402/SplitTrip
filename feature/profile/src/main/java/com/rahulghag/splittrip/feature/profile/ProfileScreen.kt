@@ -63,7 +63,7 @@ import com.rahulghag.splittrip.core.ui.extensions.CollectEvents
 import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
-import com.rahulghag.splittrip.feature.profile.model.ProfileUiModel
+import com.rahulghag.splittrip.domain.profile.model.Profile
 
 @Composable
 fun ProfileScreen(
@@ -283,7 +283,7 @@ private fun ProfileContent(
 }
 
 @Composable
-private fun ProfileHeader(profile: ProfileUiModel) {
+private fun ProfileHeader(profile: Profile) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -323,7 +323,7 @@ private fun ProfileHeader(profile: ProfileUiModel) {
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        text = profile.upiId,
+                        text = profile.upiId ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -454,7 +454,7 @@ private fun ProfileLoadedPreview() {
     SplitTripTheme {
         ProfileContent(
             state = ProfileState(
-                profile = ProfileUiModel(
+                profile = Profile(
                     id = "user_1",
                     fullName = "Rahul ",
                     upiId = "rahul@upi",
@@ -476,7 +476,7 @@ private fun ProfileNoUpiPreview() {
     SplitTripTheme {
         ProfileContent(
             state = ProfileState(
-                profile = ProfileUiModel(
+                profile = Profile(
                     id = "user_1",
                     fullName = "Rahul ",
                     upiId = null,

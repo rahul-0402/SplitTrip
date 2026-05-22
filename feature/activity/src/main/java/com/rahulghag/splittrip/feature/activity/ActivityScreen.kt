@@ -50,8 +50,8 @@ import com.rahulghag.splittrip.core.ui.extensions.CollectEvents
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.activity.model.NotificationType
-import com.rahulghag.splittrip.feature.activity.model.NotificationUiModel
+import com.rahulghag.splittrip.domain.activity.model.NotificationType
+import com.rahulghag.splittrip.domain.activity.model.Notification
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
@@ -159,7 +159,7 @@ private fun ActivityContent(
 
 @Composable
 private fun NotificationRow(
-    notification: NotificationUiModel,
+    notification: Notification,
     onClick: () -> Unit,
 ) {
     val extColors = MaterialTheme.extendedColors
@@ -288,7 +288,7 @@ private fun ActivityLoadedPreview() {
         ActivityContent(
             state = ActivityState(
                 notifications = listOf(
-                    NotificationUiModel(
+                    Notification(
                         id = "notif_1",
                         type = NotificationType.EXPENSE_ADDED,
                         title = "Komal added an expense",
@@ -297,7 +297,7 @@ private fun ActivityLoadedPreview() {
                         isRead = false,
                         createdAt = "2025-01-16T08:30:00Z",
                     ),
-                    NotificationUiModel(
+                    Notification(
                         id = "notif_2",
                         type = NotificationType.SETTLEMENT_CONFIRMED,
                         title = "Arun settled up",
@@ -306,7 +306,7 @@ private fun ActivityLoadedPreview() {
                         isRead = false,
                         createdAt = "2025-01-15T14:20:00Z",
                     ),
-                    NotificationUiModel(
+                    Notification(
                         id = "notif_3",
                         type = NotificationType.MEMBER_JOINED,
                         title = "Sara joined Goa trip 2025",

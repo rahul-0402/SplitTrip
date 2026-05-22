@@ -2,7 +2,7 @@ package com.rahulghag.splittrip.feature.settle.balances
 
 import androidx.lifecycle.SavedStateHandle
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.settle.repository.SettlementRepository
+import com.rahulghag.splittrip.domain.settle.repository.SettlementRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch

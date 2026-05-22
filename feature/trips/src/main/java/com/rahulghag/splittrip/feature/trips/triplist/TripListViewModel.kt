@@ -1,7 +1,7 @@
 package com.rahulghag.splittrip.feature.trips.triplist
 
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.trips.repository.TripRepository
+import com.rahulghag.splittrip.domain.trips.repository.TripRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch

@@ -3,10 +3,10 @@ package com.rahulghag.splittrip.feature.trips.addexpense
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.trips.model.MemberSplitRow
-import com.rahulghag.splittrip.feature.trips.model.MemberUiModel
-import com.rahulghag.splittrip.feature.trips.model.SplitType
-import com.rahulghag.splittrip.feature.trips.model.ExpenseCategory
+import com.rahulghag.splittrip.domain.trips.model.MemberSplit
+import com.rahulghag.splittrip.domain.trips.model.Member
+import com.rahulghag.splittrip.domain.trips.model.SplitType
+import com.rahulghag.splittrip.domain.trips.model.ExpenseCategory
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -15,9 +15,9 @@ data class AddExpenseState(
     val amount: String = "",
     val description: String = "",
     val selectedCategory: ExpenseCategory = ExpenseCategory.GENERAL,
-    val paidBy: MemberUiModel? = null,
+    val paidBy: Member? = null,
     val splitType: SplitType = SplitType.EQUAL,
-    val memberSplits: ImmutableList<MemberSplitRow> = persistentListOf(),
+    val memberSplits: ImmutableList<MemberSplit> = persistentListOf(),
     val isCategorySheetOpen: Boolean = false,
     val isLoading: Boolean = false,
     val amountError: String? = null,
@@ -43,7 +43,7 @@ sealed class AddExpenseIntent : UiIntent {
     data class CategorySelected(val category: ExpenseCategory) : AddExpenseIntent()
     data object OpenCategorySheet : AddExpenseIntent()
     data object CloseCategorySheet : AddExpenseIntent()
-    data class PaidBySelected(val member: MemberUiModel) : AddExpenseIntent()
+    data class PaidBySelected(val member: Member) : AddExpenseIntent()
     data class SplitTypeChanged(val type: SplitType) : AddExpenseIntent()
     data class MemberIncludeToggled(val memberId: String) : AddExpenseIntent()
     data class CustomAmountChanged(val memberId: String, val amount: String) : AddExpenseIntent()

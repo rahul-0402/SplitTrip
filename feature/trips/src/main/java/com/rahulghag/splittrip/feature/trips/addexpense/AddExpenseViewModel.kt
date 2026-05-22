@@ -2,15 +2,22 @@ package com.rahulghag.splittrip.feature.trips.addexpense
 
 import androidx.lifecycle.SavedStateHandle
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.trips.mock.FakeMembers
-import com.rahulghag.splittrip.feature.trips.model.MemberSplitRow
-import com.rahulghag.splittrip.feature.trips.model.SplitType
+import com.rahulghag.splittrip.domain.trips.model.Member
+import com.rahulghag.splittrip.domain.trips.model.MemberSplit
+import com.rahulghag.splittrip.domain.trips.model.SplitType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.math.floor
 import kotlin.math.roundToInt
+
+private val FakeMembers = listOf(
+    Member("m1", "Rahul", 0, "rahul@upi"),
+    Member("m2", "Komal", 1, "komal@upi"),
+    Member("m3", "Arun", 2, null),
+    Member("m4", "Sara", 3, null),
+)
 
 @HiltViewModel
 class AddExpenseViewModel @Inject constructor(
@@ -23,7 +30,7 @@ class AddExpenseViewModel @Inject constructor(
     init {
         val initialPct = 100.0 / FakeMembers.size
         val splits = FakeMembers.map { member ->
-            MemberSplitRow(member = member, percentage = initialPct, shares = 1)
+            MemberSplit(member = member, percentage = initialPct, shares = 1)
         }.toImmutableList()
         updateState {
             copy(tripId = tripId, paidBy = FakeMembers.first(), memberSplits = splits)

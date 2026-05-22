@@ -15,6 +15,16 @@
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/navigation" />
             <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/activity" />
+            <option value="$PROJECT_DIR$/data/profile" />
+            <option value="$PROJECT_DIR$/data/settle" />
+            <option value="$PROJECT_DIR$/data/trips" />
+            <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/domain/activity" />
+            <option value="$PROJECT_DIR$/domain/profile" />
+            <option value="$PROJECT_DIR$/domain/settle" />
+            <option value="$PROJECT_DIR$/domain/trips" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/activity" />
             <option value="$PROJECT_DIR$/feature/auth" />

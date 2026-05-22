@@ -2,7 +2,7 @@ package com.rahulghag.splittrip.feature.trips.expensedetail
 
 import androidx.lifecycle.SavedStateHandle
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.trips.repository.ExpenseRepository
+import com.rahulghag.splittrip.domain.trips.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import javax.inject.Inject

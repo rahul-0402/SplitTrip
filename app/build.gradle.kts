@@ -59,6 +59,14 @@ dependencies {
     implementation(project(":feature:settle"))
     implementation(project(":feature:activity"))
     implementation(project(":feature:profile"))
+    implementation(project(":data:trips"))
+    implementation(project(":data:settle"))
+    implementation(project(":data:activity"))
+    implementation(project(":data:profile"))
+    implementation(project(":domain:trips"))
+    implementation(project(":domain:settle"))
+    implementation(project(":domain:activity"))
+    implementation(project(":domain:profile"))
 
     // Core
     implementation(libs.androidx.core.ktx)

@@ -23,6 +23,8 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:navigation"))
+    implementation(project(":domain:settle"))
+    implementation(project(":domain:trips"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

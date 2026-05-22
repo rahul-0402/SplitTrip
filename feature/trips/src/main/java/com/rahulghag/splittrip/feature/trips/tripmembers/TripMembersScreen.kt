@@ -56,8 +56,8 @@ import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.JetBrainsMono
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.trips.model.MemberRole
-import com.rahulghag.splittrip.feature.trips.model.TripMemberUiModel
+import com.rahulghag.splittrip.domain.trips.model.MemberRole
+import com.rahulghag.splittrip.domain.trips.model.TripMember
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -272,7 +272,7 @@ private fun InviteCard(
 }
 
 @Composable
-private fun MemberListRow(member: TripMemberUiModel) {
+private fun MemberListRow(member: TripMember) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -311,9 +311,10 @@ private fun MemberListRow(member: TripMemberUiModel) {
                     }
                 }
             }
-            if (member.upiId != null) {
+            val upiId = member.upiId
+            if (upiId != null) {
                 Text(
-                    text = member.upiId,
+                    text = upiId,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -365,10 +366,10 @@ private fun TripMembersLoadedPreview() {
                 tripId = "trip_1",
                 tripName = "Goa trip 2025",
                 members = listOf(
-                    TripMemberUiModel("m1", "Rahul", 0, "rahul@upi",  MemberRole.ADMIN,  "2025-01-10"),
-                    TripMemberUiModel("m2", "Priya", 1, "priya@upi",  MemberRole.MEMBER, "2025-01-11"),
-                    TripMemberUiModel("m3", "Arun",  2, null,          MemberRole.MEMBER, "2025-01-11"),
-                    TripMemberUiModel("m4", "Sara",  3, null,          MemberRole.MEMBER, "2025-01-12"),
+                    TripMember("m1", "Rahul", 0, "rahul@upi",  MemberRole.ADMIN,  "2025-01-10"),
+                    TripMember("m2", "Priya", 1, "priya@upi",  MemberRole.MEMBER, "2025-01-11"),
+                    TripMember("m3", "Arun",  2, null,          MemberRole.MEMBER, "2025-01-11"),
+                    TripMember("m4", "Sara",  3, null,          MemberRole.MEMBER, "2025-01-12"),
                 ).toImmutableList(),
                 inviteCode = "goa25xK",
                 inviteLink = "splittrip.app/join/goa25xK",

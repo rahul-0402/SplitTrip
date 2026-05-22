@@ -3,14 +3,14 @@ package com.rahulghag.splittrip.feature.trips.tripmembers
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.trips.model.TripMemberUiModel
+import com.rahulghag.splittrip.domain.trips.model.TripMember
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class TripMembersState(
     val tripId: String = "",
     val tripName: String = "",
-    val members: ImmutableList<TripMemberUiModel> = persistentListOf(),
+    val members: ImmutableList<TripMember> = persistentListOf(),
     val inviteCode: String = "",
     val inviteLink: String = "",
     val isLoading: Boolean = true,

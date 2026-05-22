@@ -3,18 +3,18 @@ package com.rahulghag.splittrip.feature.activity
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.activity.model.NotificationUiModel
+import com.rahulghag.splittrip.domain.activity.model.Notification
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 
 data class ActivityState(
-    val notifications: ImmutableList<NotificationUiModel> = persistentListOf(),
+    val notifications: ImmutableList<Notification> = persistentListOf(),
     val unreadCount: Int = 0,
     val isLoading: Boolean = true,
     val error: String? = null,
 ) : UiState {
-    val groupedNotifications: Map<String, List<NotificationUiModel>>
+    val groupedNotifications: Map<String, List<Notification>>
         get() {
             val today = LocalDate.now()
             val yesterday = today.minusDays(1)
@@ -41,7 +41,7 @@ data class ActivityState(
 
 sealed class ActivityIntent : UiIntent {
     data object LoadNotifications : ActivityIntent()
-    data class NotificationClicked(val notification: NotificationUiModel) : ActivityIntent()
+    data class NotificationClicked(val notification: Notification) : ActivityIntent()
     data object MarkAllReadClicked : ActivityIntent()
     data object RetryClicked : ActivityIntent()
 }

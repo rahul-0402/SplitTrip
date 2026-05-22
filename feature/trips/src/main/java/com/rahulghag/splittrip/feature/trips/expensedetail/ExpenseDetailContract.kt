@@ -3,10 +3,10 @@ package com.rahulghag.splittrip.feature.trips.expensedetail
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.trips.model.ExpenseUiModel
+import com.rahulghag.splittrip.domain.trips.model.Expense
 
 data class ExpenseDetailState(
-    val expense: ExpenseUiModel? = null,
+    val expense: Expense? = null,
     val isLoading: Boolean = true,
     val error: String? = null,
     val showDeleteConfirmDialog: Boolean = false,

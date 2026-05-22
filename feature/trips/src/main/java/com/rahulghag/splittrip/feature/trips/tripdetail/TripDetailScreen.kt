@@ -58,10 +58,10 @@ import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.trips.model.ExpenseCategory
-import com.rahulghag.splittrip.feature.trips.model.ExpenseUiModel
-import com.rahulghag.splittrip.feature.trips.model.TripStatus
-import com.rahulghag.splittrip.feature.trips.model.TripUiModel
+import com.rahulghag.splittrip.domain.trips.model.ExpenseCategory
+import com.rahulghag.splittrip.domain.trips.model.Expense
+import com.rahulghag.splittrip.domain.trips.model.TripStatus
+import com.rahulghag.splittrip.domain.trips.model.Trip
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
@@ -329,7 +329,7 @@ private fun CategoryFilterRow(
 
 @Composable
 private fun ExpenseListItem(
-    expense: ExpenseUiModel,
+    expense: Expense,
     onClick: () -> Unit,
 ) {
     val extColors = MaterialTheme.extendedColors
@@ -433,7 +433,7 @@ private fun TripDetailLoadedPreview() {
     SplitTripTheme {
         TripDetailContent(
             state = TripDetailState(
-                trip = TripUiModel(
+                trip = Trip(
                     id = "trip_1",
                     name = "Goa trip 2025",
                     icon = "✈️",
@@ -444,7 +444,7 @@ private fun TripDetailLoadedPreview() {
                     status = TripStatus.ACTIVE,
                 ),
                 expenses = listOf(
-                    ExpenseUiModel(
+                    Expense(
                         id = "exp_1",
                         tripId = "trip_1",
                         title = "Dinner at Britto's",
@@ -457,7 +457,7 @@ private fun TripDetailLoadedPreview() {
                         date = "2025-01-14",
                         memberCount = 4,
                     ),
-                    ExpenseUiModel(
+                    Expense(
                         id = "exp_2",
                         tripId = "trip_1",
                         title = "Hotel – night 2",
@@ -470,7 +470,7 @@ private fun TripDetailLoadedPreview() {
                         date = "2025-01-15",
                         memberCount = 4,
                     ),
-                    ExpenseUiModel(
+                    Expense(
                         id = "exp_3",
                         tripId = "trip_1",
                         title = "Scooter rental",
@@ -483,7 +483,7 @@ private fun TripDetailLoadedPreview() {
                         date = "2025-01-15",
                         memberCount = 4,
                     ),
-                    ExpenseUiModel(
+                    Expense(
                         id = "exp_4",
                         tripId = "trip_1",
                         title = "Jet ski – Calangute",

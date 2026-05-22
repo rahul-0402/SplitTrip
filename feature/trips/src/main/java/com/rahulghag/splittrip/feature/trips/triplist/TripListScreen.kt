@@ -52,8 +52,8 @@ import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
 import com.rahulghag.splittrip.feature.trips.createtrip.CreateTripBottomSheet
-import com.rahulghag.splittrip.feature.trips.model.TripStatus
-import com.rahulghag.splittrip.feature.trips.model.TripUiModel
+import com.rahulghag.splittrip.domain.trips.model.TripStatus
+import com.rahulghag.splittrip.domain.trips.model.Trip
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -206,7 +206,7 @@ private fun TripSummaryRow(
 
 @Composable
 private fun TripListItem(
-    trip: TripUiModel,
+    trip: Trip,
     onClick: () -> Unit,
 ) {
     Column(modifier = Modifier.alpha(if (trip.status == TripStatus.ARCHIVED) 0.5f else 1f)) {
@@ -305,7 +305,7 @@ private fun TripListLoadedPreview() {
         TripListContent(
             state = TripListState(
                 trips = persistentListOf(
-                    TripUiModel(
+                    Trip(
                         id = "trip_1",
                         name = "Goa trip 2025",
                         icon = "✈️",
@@ -315,7 +315,7 @@ private fun TripListLoadedPreview() {
                         yourBalance = 840.0,
                         status = TripStatus.ACTIVE,
                     ),
-                    TripUiModel(
+                    Trip(
                         id = "trip_2",
                         name = "Manali weekend",
                         icon = "🏔️",

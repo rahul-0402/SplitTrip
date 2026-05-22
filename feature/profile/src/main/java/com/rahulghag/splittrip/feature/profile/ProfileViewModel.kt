@@ -1,7 +1,7 @@
 package com.rahulghag.splittrip.feature.profile
 
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.profile.repository.ProfileRepository
+import com.rahulghag.splittrip.domain.profile.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

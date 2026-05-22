@@ -55,8 +55,8 @@ import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.settle.model.SettlementStatus
-import com.rahulghag.splittrip.feature.settle.model.SettlementUiModel
+import com.rahulghag.splittrip.domain.settle.model.SettlementStatus
+import com.rahulghag.splittrip.domain.settle.model.Settlement
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 
@@ -198,7 +198,7 @@ private fun SettleUpContent(
 
 @Composable
 private fun SettlementCard(
-    settlement: SettlementUiModel,
+    settlement: Settlement,
     onPayUpi: () -> Unit,
     onMarkPaid: () -> Unit,
 ) {
@@ -249,9 +249,10 @@ private fun SettlementCard(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            if (settlement.toUpiId != null) {
+            val toUpiId = settlement.toUpiId
+            if (toUpiId != null) {
                 Text(
-                    text = settlement.toUpiId,
+                    text = toUpiId,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -280,7 +281,7 @@ private fun SettlementCard(
 }
 
 @Composable
-private fun ConfirmedSettlementRow(settlement: SettlementUiModel) {
+private fun ConfirmedSettlementRow(settlement: Settlement) {
     val extColors = MaterialTheme.extendedColors
 
     Row(
@@ -343,13 +344,13 @@ private fun SettleUpPendingPreview() {
                 tripId = "trip_1",
                 tripName = "Goa trip 2025",
                 settlements = listOf(
-                    SettlementUiModel(
+                    Settlement(
                         id = "settle_1", tripId = "trip_1",
                         fromMemberId = "m2", fromMemberName = "Komal", fromMemberIndex = 1,
                         toMemberId = "m1", toMemberName = "Rahul", toMemberIndex = 0,
                         toUpiId = "rahul@upi", amount = 520.0, status = SettlementStatus.PENDING,
                     ),
-                    SettlementUiModel(
+                    Settlement(
                         id = "settle_2", tripId = "trip_1",
                         fromMemberId = "m3", fromMemberName = "Arun", fromMemberIndex = 2,
                         toMemberId = "m1", toMemberName = "Rahul", toMemberIndex = 0,
@@ -372,7 +373,7 @@ private fun SettleUpAllSettledPreview() {
                 tripId = "trip_1",
                 tripName = "Goa trip 2025",
                 settlements = listOf(
-                    SettlementUiModel(
+                    Settlement(
                         id = "settle_1", tripId = "trip_1",
                         fromMemberId = "m2", fromMemberName = "Komal", fromMemberIndex = 1,
                         toMemberId = "m1", toMemberName = "Rahul", toMemberIndex = 0,

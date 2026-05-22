@@ -56,9 +56,9 @@ import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.MemberColors
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.trips.model.ExpenseCategory
-import com.rahulghag.splittrip.feature.trips.model.ExpenseSplitUiModel
-import com.rahulghag.splittrip.feature.trips.model.ExpenseUiModel
+import com.rahulghag.splittrip.domain.trips.model.ExpenseCategory
+import com.rahulghag.splittrip.domain.trips.model.ExpenseSplit
+import com.rahulghag.splittrip.domain.trips.model.Expense
 
 @Composable
 fun ExpenseDetailScreen(
@@ -162,7 +162,7 @@ private fun ExpenseDetailContent(
 }
 
 @Composable
-private fun ExpenseHeader(expense: ExpenseUiModel) {
+private fun ExpenseHeader(expense: Expense) {
     val extColors = MaterialTheme.extendedColors
     val categoryBg = when (expense.category) {
         ExpenseCategory.FOOD -> extColors.memberContainerColors[2]
@@ -254,7 +254,7 @@ private fun ExpenseHeader(expense: ExpenseUiModel) {
 }
 
 @Composable
-private fun SplitBreakdownSection(expense: ExpenseUiModel) {
+private fun SplitBreakdownSection(expense: Expense) {
     if (expense.splits.isEmpty()) return
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -285,7 +285,7 @@ private fun SplitBreakdownSection(expense: ExpenseUiModel) {
 
 @Composable
 private fun SplitBreakdownRow(
-    split: ExpenseSplitUiModel,
+    split: ExpenseSplit,
     totalAmount: Double,
 ) {
     val fraction = if (totalAmount > 0) (split.amount / totalAmount).toFloat().coerceIn(0f, 1f) else 0f
@@ -354,7 +354,7 @@ private fun SplitBar(
 }
 
 @Composable
-private fun ExpenseSummaryCard(expense: ExpenseUiModel) {
+private fun ExpenseSummaryCard(expense: Expense) {
     val extColors = MaterialTheme.extendedColors
     val isPayer = expense.paidByName == "Rahul"
 
@@ -472,7 +472,7 @@ private fun RahulPaidPreview() {
         ExpenseDetailContent(
             state = ExpenseDetailState(
                 isLoading = false,
-                expense = ExpenseUiModel(
+                expense = Expense(
                     id = "exp_1",
                     tripId = "trip_1",
                     title = "Dinner at Britto's",
@@ -485,10 +485,10 @@ private fun RahulPaidPreview() {
                     date = "2025-01-14",
                     memberCount = 4,
                     splits = listOf(
-                        ExpenseSplitUiModel("m1", "Rahul", 0, 700.0, 25.0),
-                        ExpenseSplitUiModel("m2", "Komal", 1, 700.0, 25.0),
-                        ExpenseSplitUiModel("m3", "Arun",  2, 700.0, 25.0),
-                        ExpenseSplitUiModel("m4", "Sara",  3, 700.0, 25.0),
+                        ExpenseSplit("m1", "Rahul", 0, 700.0, 25.0),
+                        ExpenseSplit("m2", "Komal", 1, 700.0, 25.0),
+                        ExpenseSplit("m3", "Arun",  2, 700.0, 25.0),
+                        ExpenseSplit("m4", "Sara",  3, 700.0, 25.0),
                     ),
                 ),
             ),
@@ -504,7 +504,7 @@ private fun KomalPaidPreview() {
         ExpenseDetailContent(
             state = ExpenseDetailState(
                 isLoading = false,
-                expense = ExpenseUiModel(
+                expense = Expense(
                     id = "exp_3",
                     tripId = "trip_1",
                     title = "Scooter rental",
@@ -517,10 +517,10 @@ private fun KomalPaidPreview() {
                     date = "2025-01-15",
                     memberCount = 4,
                     splits = listOf(
-                        ExpenseSplitUiModel("m1", "Rahul", 0, 600.0, 37.5),
-                        ExpenseSplitUiModel("m2", "Komal", 1, 400.0, 25.0),
-                        ExpenseSplitUiModel("m3", "Arun",  2, 400.0, 25.0),
-                        ExpenseSplitUiModel("m4", "Sara",  3, 200.0, 12.5),
+                        ExpenseSplit("m1", "Rahul", 0, 600.0, 37.5),
+                        ExpenseSplit("m2", "Komal", 1, 400.0, 25.0),
+                        ExpenseSplit("m3", "Arun",  2, 400.0, 25.0),
+                        ExpenseSplit("m4", "Sara",  3, 200.0, 12.5),
                     ),
                 ),
             ),

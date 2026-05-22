@@ -44,7 +44,7 @@ import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.settle.model.BalanceUiModel
+import com.rahulghag.splittrip.domain.settle.model.Balance
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlin.math.abs
@@ -202,7 +202,7 @@ private fun BalanceSummaryRow(state: BalancesState) {
 }
 
 @Composable
-private fun BalanceMemberRow(balance: BalanceUiModel) {
+private fun BalanceMemberRow(balance: Balance) {
     val extColors = MaterialTheme.extendedColors
 
     Row(
@@ -288,9 +288,9 @@ private fun BalancesLoadedPreview() {
                 tripId = "trip_1",
                 tripName = "Goa trip 2025",
                 balances = listOf(
-                    BalanceUiModel("m2", "Komal", 1, 520.0),
-                    BalanceUiModel("m3", "Arun", 2, 320.0),
-                    BalanceUiModel("m4", "Sara", 3, 0.0),
+                    Balance("m2", "Komal", 1, 520.0),
+                    Balance("m3", "Arun", 2, 320.0),
+                    Balance("m4", "Sara", 3, 0.0),
                 ).toImmutableList(),
                 totalOwed = 840.0,
                 totalOwing = 0.0,

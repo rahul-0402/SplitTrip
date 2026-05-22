@@ -1,7 +1,8 @@
 package com.rahulghag.splittrip.feature.activity
 
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.activity.repository.ActivityRepository
+import com.rahulghag.splittrip.domain.activity.model.Notification
+import com.rahulghag.splittrip.domain.activity.repository.ActivityRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
@@ -47,7 +48,7 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
-    private fun handleNotificationClick(notification: com.rahulghag.splittrip.feature.activity.model.NotificationUiModel) {
+    private fun handleNotificationClick(notification: Notification) {
         if (!notification.isRead) {
             launch {
                 activityRepository.markAsRead(notification.id)
@@ -61,8 +62,9 @@ class ActivityViewModel @Inject constructor(
                 }
             }
         }
-        if (notification.tripId != null) {
-            sendEvent(ActivityEvent.NavigateToTripDetail(notification.tripId))
+        val tripId = notification.tripId
+        if (tripId != null) {
+            sendEvent(ActivityEvent.NavigateToTripDetail(tripId))
         }
     }
 

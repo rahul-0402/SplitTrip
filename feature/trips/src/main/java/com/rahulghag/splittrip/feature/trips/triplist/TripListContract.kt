@@ -3,12 +3,12 @@ package com.rahulghag.splittrip.feature.trips.triplist
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.trips.model.TripUiModel
+import com.rahulghag.splittrip.domain.trips.model.Trip
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class TripListState(
-    val trips: ImmutableList<TripUiModel> = persistentListOf(),
+    val trips: ImmutableList<Trip> = persistentListOf(),
     val isLoading: Boolean = true,
     val error: String? = null,
     val totalYouAreOwed: Double = 0.0,

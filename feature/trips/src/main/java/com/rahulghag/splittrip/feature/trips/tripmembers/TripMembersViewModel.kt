@@ -2,7 +2,7 @@ package com.rahulghag.splittrip.feature.trips.tripmembers
 
 import androidx.lifecycle.SavedStateHandle
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
-import com.rahulghag.splittrip.feature.trips.repository.TripRepository
+import com.rahulghag.splittrip.domain.trips.repository.TripRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
