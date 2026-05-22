@@ -25,8 +25,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rahulghag.splittrip.core.ui.extensions.CollectEvents
 import com.rahulghag.splittrip.core.ui.theme.Brand400
@@ -100,7 +102,9 @@ private fun SplashContent(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0F1A14)),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -111,7 +115,7 @@ private fun SplashContent(
                 modifier = Modifier
                     .scale(iconScale.value)
                     .alpha(iconAlpha.value)
-                    .size(88.dp)
+                    .size(80.dp)
                     .background(
                         color = Brand400,
                         shape = MaterialTheme.shapes.extraLarge,
@@ -121,7 +125,7 @@ private fun SplashContent(
                 Icon(
                     imageVector = Icons.Outlined.AccountBalanceWallet,
                     contentDescription = "SplitTrip",
-                    modifier = Modifier.size(44.dp),
+                    modifier = Modifier.size(40.dp),
                     tint = Color.White,
                 )
             }
@@ -130,8 +134,12 @@ private fun SplashContent(
 
             Text(
                 text = "SplitTrip",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.headlineLarge.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 36.sp,
+                    letterSpacing = (-1.5).sp,
+                ),
+                color = Color.White,
                 modifier = Modifier.alpha(textAlpha.value),
             )
 
@@ -139,8 +147,8 @@ private fun SplashContent(
 
             Text(
                 text = "Fair splits, happy trips.",
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = 0.4f),
                 modifier = Modifier.alpha(tagAlpha.value),
             )
         }
@@ -148,7 +156,7 @@ private fun SplashContent(
         Text(
             text = "v1.0.0",
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f),
+            color = Color.White.copy(alpha = 0.3f),
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = Dimens.space3XL)

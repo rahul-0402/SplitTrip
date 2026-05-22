@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AirplaneTicket
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,6 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.rahulghag.splittrip.core.ui.theme.JetBrainsMono
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahulghag.splittrip.core.ui.components.empty.EmptyState
@@ -47,25 +51,24 @@ import com.rahulghag.splittrip.core.ui.theme.AmountTextStyle
 import com.rahulghag.splittrip.core.ui.theme.Dimens
 import com.rahulghag.splittrip.core.ui.theme.SplitTripTheme
 import com.rahulghag.splittrip.core.ui.theme.extendedColors
-import com.rahulghag.splittrip.feature.trips.triplist.model.FakeTripsData
-import com.rahulghag.splittrip.feature.trips.triplist.model.TripStatus
-import com.rahulghag.splittrip.feature.trips.triplist.model.TripUiModel
-import kotlinx.collections.immutable.toPersistentList
+import com.rahulghag.splittrip.feature.trips.createtrip.CreateTripBottomSheet
+import com.rahulghag.splittrip.feature.trips.model.TripStatus
+import com.rahulghag.splittrip.feature.trips.model.TripUiModel
+import kotlinx.collections.immutable.persistentListOf
 
 @Composable
 fun TripListScreen(
     onNavigateToTripDetail: (String) -> Unit,
-    onNavigateToCreateTrip: () -> Unit,
     viewModel: TripListViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showCreateSheet by remember { mutableStateOf(false) }
 
     CollectEvents(viewModel.uiEvent) { event ->
         when (event) {
             is TripListEvent.NavigateToTripDetail ->
                 onNavigateToTripDetail(event.tripId)
-            TripListEvent.NavigateToCreateTrip ->
-                onNavigateToCreateTrip()
+            TripListEvent.NavigateToCreateTrip -> Unit
         }
     }
 
@@ -75,8 +78,10 @@ fun TripListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.onIntent(TripListIntent.CreateTripClicked) },
+                onClick = { showCreateSheet = true },
                 containerColor = MaterialTheme.colorScheme.primary,
+                shape = CircleShape,
+                modifier = Modifier.size(56.dp),
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Add,
@@ -91,6 +96,16 @@ fun TripListScreen(
             state = state,
             onIntent = viewModel::onIntent,
             modifier = Modifier.padding(padding),
+        )
+    }
+
+    if (showCreateSheet) {
+        CreateTripBottomSheet(
+            onDismiss = { showCreateSheet = false },
+            onTripCreated = { tripId ->
+                showCreateSheet = false
+                onNavigateToTripDetail(tripId)
+            },
         )
     }
 }
@@ -126,7 +141,7 @@ private fun TripListContent(
         else -> {
             LazyColumn(modifier = modifier.fillMaxSize()) {
                 item {
-                    TripSummaryCard(
+                    TripSummaryRow(
                         totalYouAreOwed = state.totalYouAreOwed,
                         totalYouOwe = state.totalYouOwe,
                     )
@@ -144,58 +159,49 @@ private fun TripListContent(
 }
 
 @Composable
-private fun TripSummaryCard(
+private fun TripSummaryRow(
     totalYouAreOwed: Double,
     totalYouOwe: Double,
 ) {
-    Card(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = Dimens.spaceL, vertical = Dimens.spaceM),
-        shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+            .padding(horizontal = Dimens.spaceL, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(Dimens.spaceL),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically,
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = "OWED TO YOU",
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+            )
+            AmountText(
+                amount = totalYouAreOwed,
+                style = AmountTextStyle.copy(fontSize = 22.sp),
+            )
+        }
+        VerticalDivider(
+            modifier = Modifier.height(32.dp),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.End,
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "YOU ARE OWED",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.height(Dimens.spaceXS))
-                AmountText(
-                    amount = totalYouAreOwed,
-                    style = AmountTextStyle.copy(fontSize = 20.sp),
-                )
-            }
-
-            VerticalDivider(modifier = Modifier.height(40.dp))
-
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = "YOU OWE",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Spacer(Modifier.height(Dimens.spaceXS))
-                AmountText(
-                    amount = totalYouOwe,
-                    type = AmountType.NEGATIVE,
-                    showSign = false,
-                    style = AmountTextStyle.copy(fontSize = 20.sp),
-                )
-            }
+            Text(
+                text = "YOU OWE",
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+            )
+            AmountText(
+                amount = totalYouOwe,
+                type = AmountType.NEGATIVE,
+                showSign = false,
+                style = AmountTextStyle.copy(fontSize = 22.sp),
+            )
         }
     }
+    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 }
 
 @Composable
@@ -203,57 +209,40 @@ private fun TripListItem(
     trip: TripUiModel,
     onClick: () -> Unit,
 ) {
-    Surface(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Dimens.spaceL, vertical = Dimens.spaceXS)
-            .alpha(if (trip.status == TripStatus.ARCHIVED) 0.6f else 1f),
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 1.dp,
-    ) {
-        Row(
-            modifier = Modifier.padding(Dimens.spaceM),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.spaceM),
+    Column(modifier = Modifier.alpha(if (trip.status == TripStatus.ARCHIVED) 0.5f else 1f)) {
+        Surface(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.surface,
         ) {
-            // Trip icon
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = MaterialTheme.shapes.small,
-                    ),
-                contentAlignment = Alignment.Center,
+            Row(
+                modifier = Modifier.padding(horizontal = Dimens.spaceL, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Dimens.spaceM),
             ) {
-                Text(
-                    text = trip.icon,
-                    fontSize = 22.sp,
-                )
-            }
-
-            // Trip info
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(Dimens.spaceXS),
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+                            shape = MaterialTheme.shapes.small,
+                        ),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Text(
-                        text = trip.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                    if (trip.status == TripStatus.ARCHIVED) {
-                        Box(
-                            modifier = Modifier
-                                .background(
-                                    color = MaterialTheme.colorScheme.surfaceVariant,
-                                    shape = MaterialTheme.shapes.extraSmall,
-                                )
-                                .padding(horizontal = Dimens.spaceXS, vertical = 2.dp),
-                        ) {
+                    Text(text = trip.icon, fontSize = 18.sp)
+                }
+
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(Dimens.spaceXS),
+                    ) {
+                        Text(
+                            text = trip.name,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        if (trip.status == TripStatus.ARCHIVED) {
                             Text(
                                 text = "Archived",
                                 style = MaterialTheme.typography.labelSmall,
@@ -261,46 +250,40 @@ private fun TripListItem(
                             )
                         }
                     }
+                    Text(
+                        text = "${trip.memberCount} members · ${trip.expenseCount} expenses",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
-                Text(
-                    text = "${trip.memberCount} members · ${trip.expenseCount} expenses",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
 
-            // Balance
-            Column(horizontalAlignment = Alignment.End) {
-                if (trip.yourBalance == 0.0) {
-                    val extColors = MaterialTheme.extendedColors
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                color = extColors.successContainer,
-                                shape = MaterialTheme.shapes.extraSmall,
-                            )
-                            .padding(horizontal = Dimens.spaceS, vertical = 2.dp),
-                    ) {
+                Column(horizontalAlignment = Alignment.End) {
+                    if (trip.yourBalance == 0.0) {
+                        val extColors = MaterialTheme.extendedColors
                         Text(
                             text = "Settled",
                             style = MaterialTheme.typography.labelSmall,
                             color = extColors.success,
                             fontWeight = FontWeight.SemiBold,
                         )
+                    } else {
+                        AmountText(
+                            amount = trip.yourBalance,
+                            style = AmountTextStyle.copy(fontSize = 15.sp, fontFamily = JetBrainsMono),
+                        )
+                        Text(
+                            text = if (trip.yourBalance > 0) "you get back" else "you owe",
+                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
-                } else {
-                    AmountText(
-                        amount = trip.yourBalance,
-                        style = AmountTextStyle,
-                    )
-                    Text(
-                        text = if (trip.yourBalance > 0) "you get back" else "you owe",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
                 }
             }
         }
+        HorizontalDivider(
+            modifier = Modifier.padding(horizontal = Dimens.spaceL),
+            color = MaterialTheme.colorScheme.outlineVariant,
+        )
     }
 }
 
@@ -321,7 +304,28 @@ private fun TripListLoadedPreview() {
     SplitTripTheme {
         TripListContent(
             state = TripListState(
-                trips = FakeTripsData.trips.toPersistentList(),
+                trips = persistentListOf(
+                    TripUiModel(
+                        id = "trip_1",
+                        name = "Goa trip 2025",
+                        icon = "✈️",
+                        memberCount = 4,
+                        expenseCount = 12,
+                        totalAmount = 18420.0,
+                        yourBalance = 840.0,
+                        status = TripStatus.ACTIVE,
+                    ),
+                    TripUiModel(
+                        id = "trip_2",
+                        name = "Manali weekend",
+                        icon = "🏔️",
+                        memberCount = 3,
+                        expenseCount = 8,
+                        totalAmount = 12600.0,
+                        yourBalance = -1200.0,
+                        status = TripStatus.ACTIVE,
+                    ),
+                ),
                 isLoading = false,
                 totalYouAreOwed = 840.0,
                 totalYouOwe = 1520.0,

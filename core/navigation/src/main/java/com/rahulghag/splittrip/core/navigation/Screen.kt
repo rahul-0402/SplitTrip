@@ -48,15 +48,24 @@ sealed interface Screen {
         val expenseId: String,
     ) : Screen
 
+    // ── Trip members ──────────────────────────
+    @Serializable
+    data class TripMembers(
+        val tripId: String,
+        val tripName: String,
+    ) : Screen
+
     // ── Settle flow ────────────────────────────
     @Serializable
     data class Balances(
         val tripId: String,
+        val tripName: String,
     ) : Screen
 
     @Serializable
     data class SettleUp(
         val tripId: String,
+        val tripName: String,
     ) : Screen
 
     // ── Stats ──────────────────────────────────
@@ -72,10 +81,6 @@ sealed interface Screen {
 
     @Serializable
     data object Profile : Screen
-
-    // ── Trip creation ──────────────────────────
-    @Serializable
-    data object CreateTrip : Screen
 
     // ── Dev tools ─────────────────────────────
     @Serializable

@@ -1,7 +1,9 @@
 package com.rahulghag.splittrip.feature.auth.profilesetup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Lock
@@ -41,6 +44,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.rahulghag.splittrip.core.ui.components.avatar.AvatarSize
 import com.rahulghag.splittrip.core.ui.components.avatar.MemberAvatar
 import com.rahulghag.splittrip.core.ui.components.button.SplitTripGhostButton
+import com.rahulghag.splittrip.core.ui.theme.Warning
+import com.rahulghag.splittrip.core.ui.theme.WarningContainer
 import com.rahulghag.splittrip.core.ui.components.button.SplitTripPrimaryButton
 import com.rahulghag.splittrip.core.ui.components.input.SplitTripTextField
 import com.rahulghag.splittrip.core.ui.extensions.CollectEvents
@@ -82,7 +87,6 @@ private fun ProfileSetupContent(
     modifier: Modifier = Modifier,
 ) {
     val focusManager = LocalFocusManager.current
-    val avatarName = state.fullName.ifBlank { "?" }
 
     Column(
         modifier = modifier
@@ -114,11 +118,27 @@ private fun ProfileSetupContent(
         Spacer(Modifier.height(Dimens.space2XL))
 
         // ── Avatar ────────────────────────────
-        MemberAvatar(
-            name = avatarName,
-            index = 0,
-            size = AvatarSize.XL,
-        )
+        if (state.fullName.isBlank()) {
+            Box(
+                modifier = Modifier
+                    .size(80.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Person,
+                    contentDescription = null,
+                    modifier = Modifier.size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
+                )
+            }
+        } else {
+            MemberAvatar(
+                name = state.fullName,
+                index = 0,
+                size = AvatarSize.XL,
+            )
+        }
 
         Spacer(Modifier.height(Dimens.space2XL))
 
@@ -163,7 +183,7 @@ private fun ProfileSetupContent(
 
         CurrencyInfoRow()
 
-        Spacer(Modifier.height(Dimens.space2XL))
+        Spacer(Modifier.height(24.dp))
 
         // ── Actions ───────────────────────────
         SplitTripPrimaryButton(
@@ -196,52 +216,60 @@ private fun ProfileSetupContent(
 
 @Composable
 private fun CurrencyInfoRow() {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(Dimens.spaceXS),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
+            .padding(Dimens.spaceM),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Dimens.spaceM),
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .clip(MaterialTheme.shapes.small)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outline,
-                    shape = MaterialTheme.shapes.small,
-                )
-                .padding(Dimens.spaceM),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .size(36.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+            contentAlignment = Alignment.Center,
         ) {
+            Text(
+                text = "₹",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold,
+            )
+        }
+        Column(modifier = Modifier.weight(1f)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Dimens.spaceM),
+                horizontalArrangement = Arrangement.spacedBy(Dimens.spaceS),
             ) {
-                Text(
-                    text = "₹",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Bold,
-                )
                 Text(
                     text = "INR — Indian Rupee",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
+                Box(
+                    modifier = Modifier
+                        .background(WarningContainer, MaterialTheme.shapes.extraSmall)
+                        .padding(horizontal = Dimens.spaceXS, vertical = 1.dp),
+                ) {
+                    Text(
+                        text = "v2",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Warning,
+                    )
+                }
             }
-            Icon(
-                imageVector = Icons.Outlined.Lock,
-                contentDescription = "Currency locked",
-                modifier = Modifier.size(16.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            Text(
+                text = "Multi-currency support coming in v2",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-
-        Text(
-            text = "Multi-currency support coming in v2",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = Dimens.spaceS),
+        Icon(
+            imageVector = Icons.Outlined.Lock,
+            contentDescription = "Currency locked",
+            modifier = Modifier.size(16.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

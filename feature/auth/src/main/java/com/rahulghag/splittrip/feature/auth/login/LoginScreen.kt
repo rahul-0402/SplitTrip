@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,10 +22,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBalanceWallet
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -41,6 +46,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -113,7 +119,7 @@ private fun LoginContent(
             .padding(horizontal = Dimens.space2XL),
     ) {
 
-        Spacer(Modifier.height(56.dp))
+        Spacer(Modifier.height(48.dp))
 
         // ── Inline brand mark ─────────────────
         Row(
@@ -122,7 +128,7 @@ private fun LoginContent(
         ) {
             Box(
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(40.dp)
                     .background(
                         color = Brand400,
                         shape = MaterialTheme.shapes.small,
@@ -132,36 +138,65 @@ private fun LoginContent(
                 Icon(
                     imageVector = Icons.Outlined.AccountBalanceWallet,
                     contentDescription = null,
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(22.dp),
                     tint = Color.White,
                 )
             }
             Text(
                 text = "SplitTrip",
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.primary,
             )
         }
 
-        Spacer(Modifier.height(40.dp))
+        Spacer(Modifier.height(32.dp))
 
         // ── Heading ───────────────────────────
         Text(
             text = "Welcome back.",
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = (-1).sp,
+            ),
             color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(Modifier.height(Dimens.space3XL))
 
         // ── Google first ──────────────────────
-        SplitTripOutlineButton(
-            text = "Continue with Google",
+        OutlinedButton(
             onClick = { onIntent(LoginIntent.GoogleSignInClicked) },
-            modifier = Modifier.fillMaxWidth(),
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = MaterialTheme.shapes.small,
+            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outlineVariant),
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .background(Color(0xFF4285F4), shape = androidx.compose.foundation.shape.CircleShape),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    text = "G",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            Spacer(Modifier.width(Dimens.spaceS))
+            Text(
+                text = "Continue with Google",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
 
-        Spacer(Modifier.height(Dimens.spaceXL))
+        Spacer(Modifier.height(12.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -179,7 +214,7 @@ private fun LoginContent(
 
         Spacer(Modifier.height(Dimens.spaceXL))
 
-        // ── Email form ────────────────────────
+        // ── Email/password form ───────────────
         SplitTripTextField(
             value = state.email,
             onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
@@ -271,12 +306,27 @@ private fun LoginContent(
 
         Spacer(Modifier.height(Dimens.space2XL))
 
-        SplitTripPrimaryButton(
-            text = "Sign in",
+        Button(
             onClick = { onIntent(LoginIntent.SignInClicked) },
-            isLoading = state.isLoading,
-            modifier = Modifier.fillMaxWidth(),
-        )
+            enabled = !state.isLoading,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp),
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            if (state.isLoading) {
+                androidx.compose.material3.CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    strokeWidth = 2.dp,
+                )
+            } else {
+                Text(
+                    text = "Sign in",
+                    style = MaterialTheme.typography.labelLarge,
+                )
+            }
+        }
 
         Spacer(Modifier.height(Dimens.space4XL))
 

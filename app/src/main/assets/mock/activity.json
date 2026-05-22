@@ -1,0 +1,38 @@
+[
+  {
+    "id": "notif_1",
+    "type": "EXPENSE_ADDED",
+    "title": "Komal added an expense",
+    "body": "Breakfast buffet · ₹1,200 in Goa trip 2025",
+    "trip_id": "trip_1",
+    "is_read": false,
+    "created_at": "2025-01-16T08:30:00Z"
+  },
+  {
+    "id": "notif_2",
+    "type": "SETTLEMENT_CONFIRMED",
+    "title": "Arun settled up",
+    "body": "Arun paid you ₹320 in Goa trip 2025",
+    "trip_id": "trip_1",
+    "is_read": false,
+    "created_at": "2025-01-15T14:20:00Z"
+  },
+  {
+    "id": "notif_3",
+    "type": "MEMBER_JOINED",
+    "title": "Sara joined Goa trip 2025",
+    "body": "Sara accepted your invite",
+    "trip_id": "trip_1",
+    "is_read": true,
+    "created_at": "2025-01-14T10:00:00Z"
+  },
+  {
+    "id": "notif_4",
+    "type": "EXPENSE_ADDED",
+    "title": "You added an expense",
+    "body": "Hotel night 2 · ₹4,200 in Goa trip 2025",
+    "trip_id": "trip_1",
+    "is_read": true,
+    "created_at": "2025-01-14T09:00:00Z"
+  }
+]

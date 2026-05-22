@@ -195,7 +195,7 @@ fun DesignSystemScreen(
                         "Dinner at Britto's")
                     DsTypeRow("titleMedium · 16sp SemiBold",
                         MaterialTheme.typography.titleMedium,
-                        "Priya paid ₹2,800")
+                        "Komal paid ₹2,800")
                     DsTypeRow("bodyLarge · 16sp Normal",
                         MaterialTheme.typography.bodyLarge,
                         "Split equally among 4 members")
@@ -409,7 +409,7 @@ fun DesignSystemScreen(
                     DsLabel("Stack with overflow")
                     AvatarStack(
                         names = listOf(
-                            "Rahul", "Priya", "Arun", "Sara", "Meera", "Karan"
+                            "Rahul", "Komal", "Arun", "Sara", "Meera", "Karan"
                         ),
                         maxVisible = 4,
                         size = AvatarSize.MD,

@@ -158,7 +158,7 @@ private fun AvatarPreview() {
             }
             // Stack
             AvatarStack(
-                names = listOf("Rahul", "Priya", "Arun", "Sara", "Meera"),
+                names = listOf("Rahul", "Komal", "Arun", "Sara", "Meera"),
                 maxVisible = 4,
             )
         }

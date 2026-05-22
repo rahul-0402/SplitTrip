@@ -11,16 +11,16 @@ import com.rahulghag.splittrip.designsystem.DesignSystemScreen
 import com.rahulghag.splittrip.feature.auth.login.LoginScreen
 import com.rahulghag.splittrip.feature.auth.profilesetup.ProfileSetupScreen
 import com.rahulghag.splittrip.feature.auth.splash.SplashScreen
+import com.rahulghag.splittrip.feature.activity.ActivityScreen
+import com.rahulghag.splittrip.feature.profile.ProfileScreen
+import com.rahulghag.splittrip.feature.trips.tripmembers.TripMembersScreen
+import com.rahulghag.splittrip.feature.settle.balances.BalancesScreen
+import com.rahulghag.splittrip.feature.settle.settleup.SettleUpScreen
+import com.rahulghag.splittrip.feature.trips.addexpense.AddExpenseScreen
+import com.rahulghag.splittrip.feature.trips.expensedetail.ExpenseDetailScreen
+import com.rahulghag.splittrip.feature.trips.tripdetail.TripDetailScreen
 import com.rahulghag.splittrip.feature.trips.triplist.TripListScreen
-import com.rahulghag.splittrip.placeholder.ActivityPlaceholder
-import com.rahulghag.splittrip.placeholder.AddExpensePlaceholder
-import com.rahulghag.splittrip.placeholder.BalancesPlaceholder
-import com.rahulghag.splittrip.placeholder.CreateTripPlaceholder
-import com.rahulghag.splittrip.placeholder.ExpenseDetailPlaceholder
-import com.rahulghag.splittrip.placeholder.ProfilePlaceholder
-import com.rahulghag.splittrip.placeholder.SettleUpPlaceholder
 import com.rahulghag.splittrip.placeholder.StatsPlaceholder
-import com.rahulghag.splittrip.placeholder.TripDetailPlaceholder
 
 @Composable
 fun SplitTripNavHost(
@@ -87,41 +87,63 @@ fun SplitTripNavHost(
                 onNavigateToTripDetail = { tripId ->
                     navController.navigate(Screen.TripDetail(tripId))
                 },
-                onNavigateToCreateTrip = {
-                    navController.navigate(Screen.CreateTrip)
+            )
+        }
+
+        composable<Screen.TripDetail> {
+            TripDetailScreen(
+                onNavigateUp = {
+                    navController.navigateUp()
+                },
+                onNavigateToExpenseDetail = { expenseId ->
+                    navController.navigate(Screen.ExpenseDetail(expenseId))
+                },
+                onNavigateToAddExpense = { tripId ->
+                    navController.navigate(Screen.AddExpense(tripId))
+                },
+                onNavigateToBalances = { tripId, tripName ->
+                    navController.navigate(Screen.Balances(tripId, tripName))
+                },
+                onNavigateToTripMembers = { tripId, tripName ->
+                    navController.navigate(Screen.TripMembers(tripId, tripName))
                 },
             )
         }
 
-        composable<Screen.TripDetail> { backStackEntry ->
-            val route = backStackEntry.toRoute<Screen.TripDetail>()
-            TripDetailPlaceholder(tripId = route.tripId)
-        }
-
-        composable<Screen.CreateTrip> {
-            CreateTripPlaceholder()
+        composable<Screen.TripMembers> {
+            TripMembersScreen(
+                onNavigateUp = { navController.navigateUp() },
+            )
         }
 
         // ── Expenses ──────────────────────────
-        composable<Screen.AddExpense> { backStackEntry ->
-            val route = backStackEntry.toRoute<Screen.AddExpense>()
-            AddExpensePlaceholder(tripId = route.tripId)
+        composable<Screen.AddExpense> {
+            AddExpenseScreen(
+                onNavigateUp = { navController.navigateUp() },
+            )
         }
 
-        composable<Screen.ExpenseDetail> { backStackEntry ->
-            val route = backStackEntry.toRoute<Screen.ExpenseDetail>()
-            ExpenseDetailPlaceholder(expenseId = route.expenseId)
+        composable<Screen.ExpenseDetail> {
+            ExpenseDetailScreen(
+                onNavigateUp = { navController.navigateUp() },
+                onNavigateToEdit = { /* TODO: EditExpense screen later */ },
+            )
         }
 
         // ── Settle ────────────────────────────
-        composable<Screen.Balances> { backStackEntry ->
-            val route = backStackEntry.toRoute<Screen.Balances>()
-            BalancesPlaceholder(tripId = route.tripId)
+        composable<Screen.Balances> {
+            BalancesScreen(
+                onNavigateUp = { navController.navigateUp() },
+                onNavigateToSettleUp = { tripId, tripName ->
+                    navController.navigate(Screen.SettleUp(tripId, tripName))
+                },
+            )
         }
 
-        composable<Screen.SettleUp> { backStackEntry ->
-            val route = backStackEntry.toRoute<Screen.SettleUp>()
-            SettleUpPlaceholder(tripId = route.tripId)
+        composable<Screen.SettleUp> {
+            SettleUpScreen(
+                onNavigateUp = { navController.navigateUp() },
+            )
         }
 
         // ── Stats ─────────────────────────────
@@ -132,15 +154,24 @@ fun SplitTripNavHost(
 
         // ── Bottom nav tabs ───────────────────
         composable<Screen.Activity> {
-            ActivityPlaceholder()
+            ActivityScreen(
+                onNavigateToTripDetail = { tripId ->
+                    navController.navigate(Screen.TripDetail(tripId))
+                },
+            )
         }
 
         composable<Screen.Profile> {
-            ProfilePlaceholder(
-                onOpenDesignSystem = {
+            ProfileScreen(
+                onNavigateToLogin = {
+                    navController.navigate(Screen.Login) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
+                onNavigateToDesignSystem = {
                     navController.navigate(Screen.DesignSystem)
                 },
-                onOpenCounter = {
+                onNavigateToCounter = {
                     navController.navigate(Screen.Counter)
                 },
             )

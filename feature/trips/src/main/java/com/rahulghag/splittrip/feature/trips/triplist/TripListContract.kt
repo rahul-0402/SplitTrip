@@ -3,7 +3,7 @@ package com.rahulghag.splittrip.feature.trips.triplist
 import com.rahulghag.splittrip.core.common.mvi.UiEvent
 import com.rahulghag.splittrip.core.common.mvi.UiIntent
 import com.rahulghag.splittrip.core.common.mvi.UiState
-import com.rahulghag.splittrip.feature.trips.triplist.model.TripUiModel
+import com.rahulghag.splittrip.feature.trips.model.TripUiModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 

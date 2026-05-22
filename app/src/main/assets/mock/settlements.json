@@ -1,0 +1,35 @@
+[
+  {
+    "id": "settle_1",
+    "trip_id": "trip_1",
+    "from_name": "Komal",
+    "from_index": 1,
+    "to_name": "Rahul",
+    "to_index": 0,
+    "to_upi_id": "rahul@upi",
+    "amount": 520.0,
+    "status": "PENDING"
+  },
+  {
+    "id": "settle_2",
+    "trip_id": "trip_1",
+    "from_name": "Arun",
+    "from_index": 2,
+    "to_name": "Rahul",
+    "to_index": 0,
+    "to_upi_id": "rahul@upi",
+    "amount": 320.0,
+    "status": "PENDING"
+  },
+  {
+    "id": "settle_3",
+    "trip_id": "trip_1",
+    "from_name": "Sara",
+    "from_index": 3,
+    "to_name": "Komal",
+    "to_index": 1,
+    "to_upi_id": "priya@upi",
+    "amount": 180.0,
+    "status": "CONFIRMED"
+  }
+]

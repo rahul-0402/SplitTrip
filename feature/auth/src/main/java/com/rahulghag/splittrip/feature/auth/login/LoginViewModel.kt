@@ -116,7 +116,7 @@ class LoginViewModel @Inject constructor() :
             if (currentState.email == "test@test.com"
                 && currentState.password == "123456") {
                 updateState { copy(isLoading = false) }
-                sendEvent(LoginEvent.NavigateToTripList)
+                sendEvent(LoginEvent.NavigateToProfileSetup)
             } else {
                 updateState {
                     copy(

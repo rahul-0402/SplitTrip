@@ -9,6 +9,10 @@
 /.idea/assetWizardSettings.xml
 /.idea/gradle.xml
 /.idea/inspectionProfiles/Project_Default.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/misc.xml
+/.idea/compiler.xml
 .DS_Store
 **/build/
 /captures

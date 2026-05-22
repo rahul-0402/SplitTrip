@@ -21,7 +21,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("boolean", "MOCK_MODE", "true")
+        }
         release {
+            buildConfigField("boolean", "MOCK_MODE", "false")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -52,6 +56,9 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:trips"))
+    implementation(project(":feature:settle"))
+    implementation(project(":feature:activity"))
+    implementation(project(":feature:profile"))
 
     // Core
     implementation(libs.androidx.core.ktx)
