@@ -13,9 +13,12 @@
 /.idea/AndroidProjectSystem.xml
 /.idea/misc.xml
 /.idea/compiler.xml
+/.idea/markdown.xml
 .DS_Store
 **/build/
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+/.claude/settings.local.json
+CLAUDE.md
