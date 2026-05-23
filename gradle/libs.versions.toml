@@ -109,6 +109,9 @@ ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = 
 supabase-auth = { group = "io.github.jan-tennert.supabase", name = "auth-kt", version.ref = "supabase" }
 supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabase" }
 
+# Inject
+javax-inject = { group = "javax.inject", name = "javax.inject", version = "1" }
+
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

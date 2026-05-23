@@ -2,10 +2,11 @@ package com.rahulghag.splittrip.domain.trips.usecase
 
 import com.rahulghag.splittrip.domain.trips.model.MemberSplit
 import com.rahulghag.splittrip.domain.trips.model.SplitType
+import javax.inject.Inject
 import kotlin.math.floor
 import kotlin.math.roundToInt
 
-class CalculateSplitsUseCase {
+class CalculateSplitsUseCase @Inject constructor() {
 
     operator fun invoke(
         splits: List<MemberSplit>,

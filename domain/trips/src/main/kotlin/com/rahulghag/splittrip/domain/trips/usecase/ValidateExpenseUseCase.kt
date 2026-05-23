@@ -2,9 +2,10 @@ package com.rahulghag.splittrip.domain.trips.usecase
 
 import com.rahulghag.splittrip.domain.trips.model.MemberSplit
 import com.rahulghag.splittrip.domain.trips.model.SplitType
+import javax.inject.Inject
 import kotlin.math.abs
 
-class ValidateExpenseUseCase {
+class ValidateExpenseUseCase @Inject constructor() {
 
     operator fun invoke(
         splits: List<MemberSplit>,

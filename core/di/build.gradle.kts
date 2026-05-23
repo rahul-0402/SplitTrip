@@ -30,7 +30,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "MOCK_MODE", "true")
+            buildConfigField("boolean", "MOCK_MODE", "false")
         }
         release {
             buildConfigField("boolean", "MOCK_MODE", "false")
