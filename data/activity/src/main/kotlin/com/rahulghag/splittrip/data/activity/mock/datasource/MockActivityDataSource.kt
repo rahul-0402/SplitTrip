@@ -1,4 +1,4 @@
-@file:OptIn( kotlinx.serialization.InternalSerializationApi::class)
+@file:OptIn(kotlinx.serialization.InternalSerializationApi::class)
 
 package com.rahulghag.splittrip.data.activity.mock.datasource
 

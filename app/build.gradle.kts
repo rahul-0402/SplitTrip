@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "MOCK_MODE", "false")
+            buildConfigField("boolean", "MOCK_MODE", "true")
         }
         release {
             buildConfigField("boolean", "MOCK_MODE", "false")
@@ -60,14 +60,7 @@ dependencies {
     implementation(project(":feature:settle"))
     implementation(project(":feature:activity"))
     implementation(project(":feature:profile"))
-    implementation(project(":data:trips"))
-    implementation(project(":data:settle"))
-    implementation(project(":data:activity"))
-    implementation(project(":data:profile"))
-    implementation(project(":domain:trips"))
-    implementation(project(":domain:settle"))
-    implementation(project(":domain:activity"))
-    implementation(project(":domain:profile"))
+    implementation(project(":core:di"))
 
     // Core
     implementation(libs.androidx.core.ktx)

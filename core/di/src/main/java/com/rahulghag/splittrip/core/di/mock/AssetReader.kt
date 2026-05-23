@@ -1,4 +1,4 @@
-package com.rahulghag.splittrip.mock
+package com.rahulghag.splittrip.core.di.mock
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext

@@ -6,7 +6,8 @@ import com.rahulghag.splittrip.core.common.mock.MockJson
 import com.rahulghag.splittrip.data.settle.mock.model.SettlementJsonModel
 import com.rahulghag.splittrip.domain.settle.model.Balance
 import com.rahulghag.splittrip.domain.settle.model.Settlement
-import com.rahulghag.splittrip.domain.trips.model.Member
+
+private data class FakeMember(val id: String, val name: String, val index: Int, val upiId: String?)
 
 class MockSettlementDataSource(private val readJson: (String) -> String) {
 
@@ -41,10 +42,10 @@ class MockSettlementDataSource(private val readJson: (String) -> String) {
             .map { it.toModel() }
     }
 
-    val fakeMembers = listOf(
-        Member("m1", "Rahul", 0, "rahul@upi"),
-        Member("m2", "Komal", 1, "komal@upi"),
-        Member("m3", "Arun", 2, null),
-        Member("m4", "Sara", 3, null),
+    private val fakeMembers = listOf(
+        FakeMember("m1", "Rahul", 0, "rahul@upi"),
+        FakeMember("m2", "Komal", 1, "komal@upi"),
+        FakeMember("m3", "Arun", 2, null),
+        FakeMember("m4", "Sara", 3, null),
     )
 }

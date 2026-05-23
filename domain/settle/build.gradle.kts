@@ -1,4 +1,4 @@
-// KMP-READY: Pure Kotlin only. No android.* imports allowed.
+// KMP-READY: kotlin.jvm now → kotlin.multiplatform post-v1. No android.* imports allowed.
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
@@ -15,7 +15,6 @@ kotlin {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":domain:trips"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.collections.immutable)

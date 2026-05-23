@@ -1,7 +1,7 @@
 package com.rahulghag.splittrip.domain.trips.repository
 
-import com.rahulghag.splittrip.domain.trips.model.TripMember
 import com.rahulghag.splittrip.domain.trips.model.Trip
+import com.rahulghag.splittrip.domain.trips.model.TripMember
 import kotlinx.coroutines.flow.Flow
 
 interface TripRepository {
