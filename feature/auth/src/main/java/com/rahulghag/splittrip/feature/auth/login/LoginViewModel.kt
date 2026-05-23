@@ -1,16 +1,19 @@
 package com.rahulghag.splittrip.feature.auth.login
 
 import com.rahulghag.splittrip.core.common.extensions.isValidEmail
+import com.rahulghag.splittrip.core.common.repository.SessionRepository
+import com.rahulghag.splittrip.core.common.result.onError
+import com.rahulghag.splittrip.core.common.result.onSuccess
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() :
-    SplitTripViewModel<LoginState, LoginIntent, LoginEvent>(
-        initialState = LoginState()
-    ) {
+class LoginViewModel @Inject constructor(
+    private val sessionRepository: SessionRepository,
+) : SplitTripViewModel<LoginState, LoginIntent, LoginEvent>(
+    initialState = LoginState()
+) {
 
     override fun onIntent(intent: LoginIntent) {
         when (intent) {
@@ -106,25 +109,19 @@ class LoginViewModel @Inject constructor() :
     private fun signIn() {
         launch {
             updateState { copy(isLoading = true, generalError = null) }
-
-            // TODO: replace with real Supabase auth later
-            // Simulating network call for now
-            delay(1500)
-
-            // Stub: always succeeds with fake credentials
-            // Real auth check will go here
-            if (currentState.email == "test@test.com"
-                && currentState.password == "123456") {
-                updateState { copy(isLoading = false) }
-                sendEvent(LoginEvent.NavigateToProfileSetup)
-            } else {
-                updateState {
-                    copy(
-                        isLoading = false,
-                        generalError = "Invalid email or password",
-                    )
+            sessionRepository.signInWithEmail(currentState.email, currentState.password)
+                .onSuccess {
+                    updateState { copy(isLoading = false) }
+                    sendEvent(LoginEvent.NavigateToTripList)
                 }
-            }
+                .onError { _, message ->
+                    updateState {
+                        copy(
+                            isLoading = false,
+                            generalError = message ?: "Something went wrong",
+                        )
+                    }
+                }
         }
     }
 }

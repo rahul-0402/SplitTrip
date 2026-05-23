@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("boolean", "MOCK_MODE", "true")
+            buildConfigField("boolean", "MOCK_MODE", "false")
         }
         release {
             buildConfigField("boolean", "MOCK_MODE", "false")
@@ -52,6 +52,7 @@ android {
 dependencies {
     // Modules
     implementation(project(":core:common"))
+    implementation(project(":core:data"))
     implementation(project(":core:ui"))
     implementation(project(":core:navigation"))
     implementation(project(":feature:auth"))

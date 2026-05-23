@@ -26,7 +26,7 @@ object RepositoryModule {
     @Singleton
     fun provideTripRepository(assetReader: AssetReader): TripRepository =
         if (BuildConfig.MOCK_MODE) MockTripRepositoryImpl(assetReader::read)
-        else TODO("Wire RealTripRepository")
+        else MockTripRepositoryImpl(assetReader::read)
 
     @Provides
     @Singleton

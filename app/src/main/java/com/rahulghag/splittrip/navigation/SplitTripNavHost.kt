@@ -8,8 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.rahulghag.splittrip.core.navigation.Screen
 import com.rahulghag.splittrip.designsystem.DesignSystemScreen
+import com.rahulghag.splittrip.feature.auth.forgotpassword.ForgotPasswordScreen
 import com.rahulghag.splittrip.feature.auth.login.LoginScreen
 import com.rahulghag.splittrip.feature.auth.profilesetup.ProfileSetupScreen
+import com.rahulghag.splittrip.feature.auth.signup.SignUpScreen
 import com.rahulghag.splittrip.feature.auth.splash.SplashScreen
 import com.rahulghag.splittrip.feature.activity.ActivityScreen
 import com.rahulghag.splittrip.feature.profile.ProfileScreen
@@ -63,10 +65,31 @@ fun SplitTripNavHost(
                     }
                 },
                 onNavigateToSignUp = {
-                    // TODO: SignUp screen later
+                    navController.navigate(Screen.SignUp)
                 },
                 onNavigateToForgotPassword = {
-                    // TODO: ForgotPassword screen later
+                    navController.navigate(Screen.ForgotPassword)
+                },
+            )
+        }
+
+        composable<Screen.SignUp> {
+            SignUpScreen(
+                onNavigateToLogin = {
+                    navController.navigateUp()
+                },
+                onNavigateToProfileSetup = {
+                    navController.navigate(Screen.ProfileSetup) {
+                        popUpTo(Screen.Login) { inclusive = true }
+                    }
+                },
+            )
+        }
+
+        composable<Screen.ForgotPassword> {
+            ForgotPasswordScreen(
+                onNavigateUp = {
+                    navController.navigateUp()
                 },
             )
         }
