@@ -4,13 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
 import com.rahulghag.splittrip.domain.trips.model.Member
 import com.rahulghag.splittrip.domain.trips.model.MemberSplit
-import com.rahulghag.splittrip.domain.trips.model.SplitType
+import com.rahulghag.splittrip.domain.trips.usecase.CalculateSplitsUseCase
+import com.rahulghag.splittrip.domain.trips.usecase.ValidateExpenseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.delay
 import javax.inject.Inject
-import kotlin.math.floor
-import kotlin.math.roundToInt
 
 private val FakeMembers = listOf(
     Member("m1", "Rahul", 0, "rahul@upi"),
@@ -22,6 +21,8 @@ private val FakeMembers = listOf(
 @HiltViewModel
 class AddExpenseViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    private val calculateSplits: CalculateSplitsUseCase,
+    private val validateExpense: ValidateExpenseUseCase,
 ) : SplitTripViewModel<AddExpenseState, AddExpenseIntent, AddExpenseEvent>(
     initialState = AddExpenseState()
 ) {
@@ -116,71 +117,8 @@ class AddExpenseViewModel @Inject constructor(
 
     private fun recalculateSplits() {
         val state = currentState
-        val included = state.memberSplits.filter { it.isIncluded }
-        val count = included.size
-        val total = state.parsedAmount
-
-        if (count == 0) {
-            updateState { copy(memberSplits = memberSplits.map { it.copy(amount = 0.0) }.toImmutableList()) }
-            return
-        }
-
-        when (state.splitType) {
-            SplitType.EQUAL -> {
-                val base = floor(total / count * 100) / 100.0
-                val remainder = ((total - base * (count - 1)) * 100).roundToInt() / 100.0
-                val lastId = included.last().member.id
-                updateState {
-                    copy(memberSplits = memberSplits.map { row ->
-                        when {
-                            !row.isIncluded -> row.copy(amount = 0.0)
-                            row.member.id == lastId -> row.copy(amount = remainder)
-                            else -> row.copy(amount = base)
-                        }
-                    }.toImmutableList())
-                }
-            }
-
-            SplitType.PERCENTAGE -> {
-                updateState {
-                    copy(memberSplits = memberSplits.map { row ->
-                        row.copy(
-                            amount = if (row.isIncluded)
-                                (total * row.percentage / 100.0 * 100).roundToInt() / 100.0
-                            else 0.0
-                        )
-                    }.toImmutableList())
-                }
-            }
-
-            SplitType.CUSTOM -> {
-                updateState {
-                    copy(memberSplits = memberSplits.map { row ->
-                        row.copy(amount = if (row.isIncluded) row.customAmount.toDoubleOrNull() ?: 0.0 else 0.0)
-                    }.toImmutableList())
-                }
-            }
-
-            SplitType.SHARES -> {
-                val totalShares = included.sumOf { it.shares }.toDouble()
-                if (totalShares == 0.0) return
-                val amounts = mutableMapOf<String, Double>()
-                var sum = 0.0
-                included.dropLast(1).forEach { row ->
-                    val share = floor(total * row.shares / totalShares * 100) / 100.0
-                    amounts[row.member.id] = share
-                    sum += share
-                }
-                included.lastOrNull()?.let { last ->
-                    amounts[last.member.id] = ((total - sum) * 100).roundToInt() / 100.0
-                }
-                updateState {
-                    copy(memberSplits = memberSplits.map { row ->
-                        row.copy(amount = amounts[row.member.id] ?: 0.0)
-                    }.toImmutableList())
-                }
-            }
-        }
+        val updated = calculateSplits(state.memberSplits, state.parsedAmount, state.splitType)
+        updateState { copy(memberSplits = updated.toImmutableList()) }
     }
 
     private fun save() {
@@ -196,7 +134,7 @@ class AddExpenseViewModel @Inject constructor(
             else -> null
         }
         val paidByErr = if (state.paidBy == null) "Select who paid" else null
-        val splitErr = validateSplits(state)
+        val splitErr = validateExpense(state.memberSplits, state.parsedAmount, state.splitType)
 
         if (amountErr != null || descErr != null || paidByErr != null || splitErr != null) {
             updateState {
@@ -216,22 +154,4 @@ class AddExpenseViewModel @Inject constructor(
         }
     }
 
-    private fun validateSplits(state: AddExpenseState): String? {
-        val included = state.memberSplits.filter { it.isIncluded }
-        if (included.isEmpty()) return "At least one member must be included"
-        return when (state.splitType) {
-            SplitType.EQUAL -> null
-            SplitType.PERCENTAGE -> {
-                val sum = included.sumOf { it.percentage }
-                if (kotlin.math.abs(sum - 100.0) > 0.01) "Percentages must add up to 100%" else null
-            }
-            SplitType.CUSTOM -> {
-                val sum = included.sumOf { it.customAmount.toDoubleOrNull() ?: 0.0 }
-                val total = state.parsedAmount
-                val label = if (total % 1.0 == 0.0) total.toInt().toString() else "%.2f".format(total)
-                if (kotlin.math.abs(sum - total) > 0.01) "Amounts must add up to ₹$label" else null
-            }
-            SplitType.SHARES -> null
-        }
-    }
 }

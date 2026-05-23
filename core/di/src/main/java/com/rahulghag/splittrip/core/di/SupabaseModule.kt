@@ -1,6 +1,5 @@
-package com.rahulghag.splittrip.core.data.di
+package com.rahulghag.splittrip.core.di
 
-import com.rahulghag.splittrip.core.data.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +18,7 @@ object SupabaseModule {
     fun provideSupabaseClient(): SupabaseClient =
         createSupabaseClient(
             supabaseUrl = BuildConfig.SUPABASE_URL,
-            supabaseKey = BuildConfig.SUPABASE_ANON_KEY
+            supabaseKey = BuildConfig.SUPABASE_ANON_KEY,
         ) {
             install(Auth)
         }

@@ -1,19 +1,16 @@
-package com.rahulghag.splittrip.core.data.auth
+package com.rahulghag.splittrip.data.auth
 
-import com.rahulghag.splittrip.core.common.auth.AuthError
-import com.rahulghag.splittrip.core.common.auth.toUiMessage
-import com.rahulghag.splittrip.core.common.repository.SessionRepository
 import com.rahulghag.splittrip.core.common.result.Result
+import com.rahulghag.splittrip.domain.auth.model.AuthError
+import com.rahulghag.splittrip.domain.auth.model.toUiMessage
+import com.rahulghag.splittrip.domain.auth.repository.SessionRepository
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.ktor.client.plugins.HttpRequestTimeoutException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SupabaseSessionRepository @Inject constructor(
+class SupabaseSessionRepository(
     private val supabase: SupabaseClient,
 ) : SessionRepository {
 
@@ -34,14 +31,10 @@ class SupabaseSessionRepository @Inject constructor(
         }
 
     override suspend fun sendPasswordResetEmail(email: String): Result<Unit> =
-        safeAuthCall {
-            supabase.auth.resetPasswordForEmail(email)
-        }
+        safeAuthCall { supabase.auth.resetPasswordForEmail(email) }
 
     override suspend fun signOut(): Result<Unit> =
-        safeAuthCall {
-            supabase.auth.signOut()
-        }
+        safeAuthCall { supabase.auth.signOut() }
 
     override fun isLoggedIn(): Boolean =
         supabase.auth.currentSessionOrNull() != null

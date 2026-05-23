@@ -1,4 +1,4 @@
-package com.rahulghag.splittrip.core.common.repository
+package com.rahulghag.splittrip.domain.auth.repository
 
 import com.rahulghag.splittrip.core.common.result.Result
 

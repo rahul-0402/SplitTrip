@@ -1,7 +1,7 @@
 package com.rahulghag.splittrip.feature.auth.signup
 
 import com.rahulghag.splittrip.core.common.extensions.isValidEmail
-import com.rahulghag.splittrip.core.common.repository.SessionRepository
+import com.rahulghag.splittrip.domain.auth.repository.SessionRepository
 import com.rahulghag.splittrip.core.common.result.onError
 import com.rahulghag.splittrip.core.common.result.onSuccess
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel

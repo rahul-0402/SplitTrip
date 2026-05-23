@@ -1,12 +1,9 @@
-package com.rahulghag.splittrip.core.data.auth
+package com.rahulghag.splittrip.data.auth
 
-import com.rahulghag.splittrip.core.common.repository.SessionRepository
 import com.rahulghag.splittrip.core.common.result.Result
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.rahulghag.splittrip.domain.auth.repository.SessionRepository
 
-@Singleton
-class MockSessionRepository @Inject constructor() : SessionRepository {
+class MockSessionRepository : SessionRepository {
 
     override suspend fun signInWithEmail(email: String, password: String): Result<Unit> =
         Result.Success(Unit)

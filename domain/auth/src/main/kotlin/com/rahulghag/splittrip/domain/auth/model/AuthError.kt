@@ -1,4 +1,4 @@
-package com.rahulghag.splittrip.core.common.auth
+package com.rahulghag.splittrip.domain.auth.model
 
 sealed class AuthError {
     object InvalidCredentials : AuthError()
@@ -9,7 +9,7 @@ sealed class AuthError {
 
 fun AuthError.toUiMessage(): String = when (this) {
     is AuthError.InvalidCredentials -> "Invalid email or password"
-    is AuthError.EmailAlreadyInUse  -> "An account with this email already exists"
-    is AuthError.NetworkError       -> "No internet connection. Please try again."
-    is AuthError.Unknown            -> message ?: "Something went wrong"
+    is AuthError.EmailAlreadyInUse -> "An account with this email already exists"
+    is AuthError.NetworkError -> "No internet connection. Please try again."
+    is AuthError.Unknown -> message ?: "Something went wrong"
 }

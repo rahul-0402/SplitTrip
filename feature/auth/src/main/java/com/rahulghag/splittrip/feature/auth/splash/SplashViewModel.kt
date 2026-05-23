@@ -1,6 +1,6 @@
 package com.rahulghag.splittrip.feature.auth.splash
 
-import com.rahulghag.splittrip.core.common.repository.SessionRepository
+import com.rahulghag.splittrip.domain.auth.repository.SessionRepository
 import com.rahulghag.splittrip.core.ui.viewmodel.SplitTripViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
